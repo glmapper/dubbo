@@ -34,6 +34,7 @@
     <module>dubbo-metrics-metadata</module>
     <module>dubbo-metrics-prometheus</module>
     <module>dubbo-metrics-config-center</module>
+    <module>dubbo-metrics-otlp</module>
   </modules>
   <properties>
     <skip_maven_deploy>false</skip_maven_deploy>
