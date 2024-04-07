@@ -16,27 +16,38 @@
  */
 package org.apache.dubbo.metrics.otlp;
 
+import io.micrometer.core.instrument.Clock;
+import io.micrometer.registry.otlp.OtlpConfig;
+import io.micrometer.registry.otlp.OtlpMeterRegistry;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.logger.ErrorTypeAwareLogger;
 import org.apache.dubbo.common.logger.LoggerFactory;
 import org.apache.dubbo.metrics.report.AbstractMetricsReporter;
 import org.apache.dubbo.rpc.model.ApplicationModel;
 
-import java.util.ArrayList;
-
-import io.micrometer.registry.otlp.OtlpMeterRegistry;
-
 /**
- * Metrics reporter for prometheus.
+ * Metrics reporter for Otlp.
  */
 public class OtlpMetricsReporter extends AbstractMetricsReporter {
 
     private final ErrorTypeAwareLogger logger = LoggerFactory.getErrorTypeAwareLogger(OtlpMetricsReporter.class);
 
-    private final OtlpMeterRegistry otlpMeterRegistry = new OtlpMeterRegistry();
+    private final OtlpMeterRegistry otlpMeterRegistry;
 
     public OtlpMetricsReporter(URL url, ApplicationModel applicationModel) {
         super(url, applicationModel);
+        OtlpConfig config = new OtlpConfig() {
+            @Override
+            public String get(String key) {
+                return OtlpConfig.DEFAULT.get(key);
+            }
+
+            @Override
+            public String url() {
+                return url.getParameter("exporter.otlpConfig.endpoint", "http://localhost:4318/v1/metrics");
+            }
+        };
+        this.otlpMeterRegistry = new OtlpMeterRegistry(config, Clock.SYSTEM);
     }
 
     @Override
@@ -45,11 +56,14 @@ public class OtlpMetricsReporter extends AbstractMetricsReporter {
     }
 
     public String getResponse() {
-        return new ArrayList<>(otlpMeterRegistry.getMeters()).toString();
+        return null;
     }
 
     @Override
     public void doDestroy() {
-
+        if (this.otlpMeterRegistry != null) {
+            this.otlpMeterRegistry.close();
+            logger.warn("Destroying OtlpMetricsReporter");
+        }
     }
 }
