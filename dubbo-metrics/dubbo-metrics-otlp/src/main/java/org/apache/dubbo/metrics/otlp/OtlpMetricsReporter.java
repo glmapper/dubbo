@@ -16,22 +16,17 @@
  */
 package org.apache.dubbo.metrics.otlp;
 
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.logger.ErrorTypeAwareLogger;
-import org.apache.dubbo.common.logger.LoggerFactory;
-import org.apache.dubbo.metrics.report.AbstractMetricsReporter;
-import org.apache.dubbo.rpc.model.ApplicationModel;
-
 import io.micrometer.core.instrument.Clock;
 import io.micrometer.registry.otlp.OtlpConfig;
 import io.micrometer.registry.otlp.OtlpMeterRegistry;
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.metrics.report.AbstractMetricsReporter;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 
 /**
  * Metrics reporter for Otlp.
  */
 public class OtlpMetricsReporter extends AbstractMetricsReporter {
-
-    private final ErrorTypeAwareLogger logger = LoggerFactory.getErrorTypeAwareLogger(OtlpMetricsReporter.class);
 
     private final OtlpMeterRegistry otlpMeterRegistry;
 
@@ -64,7 +59,6 @@ public class OtlpMetricsReporter extends AbstractMetricsReporter {
     public void doDestroy() {
         if (this.otlpMeterRegistry != null) {
             this.otlpMeterRegistry.close();
-            logger.warn("Destroying OtlpMetricsReporter");
         }
     }
 }
