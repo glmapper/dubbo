@@ -20,6 +20,7 @@ import org.apache.dubbo.config.MetricsConfig;
 import org.apache.dubbo.config.nested.ExporterConfig;
 import org.apache.dubbo.metrics.report.MetricsReporter;
 import org.apache.dubbo.rpc.model.ApplicationModel;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

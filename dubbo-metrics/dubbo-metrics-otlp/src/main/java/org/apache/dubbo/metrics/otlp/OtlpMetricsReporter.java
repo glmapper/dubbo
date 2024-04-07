@@ -16,14 +16,15 @@
  */
 package org.apache.dubbo.metrics.otlp;
 
-import io.micrometer.core.instrument.Clock;
-import io.micrometer.registry.otlp.OtlpConfig;
-import io.micrometer.registry.otlp.OtlpMeterRegistry;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.logger.ErrorTypeAwareLogger;
 import org.apache.dubbo.common.logger.LoggerFactory;
 import org.apache.dubbo.metrics.report.AbstractMetricsReporter;
 import org.apache.dubbo.rpc.model.ApplicationModel;
+
+import io.micrometer.core.instrument.Clock;
+import io.micrometer.registry.otlp.OtlpConfig;
+import io.micrometer.registry.otlp.OtlpMeterRegistry;
 
 /**
  * Metrics reporter for Otlp.
